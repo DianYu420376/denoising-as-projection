@@ -1,0 +1,82 @@
+# CleanDiffuser environment for DeltaCPU (x86_64) D4RL MuJoCo evaluation.
+#
+# Goal: native hopper-medium-v2 physics via mujoco-py + MuJoCo 2.1.0 (not Gymnasium
+# Hopper-v4 fallback). Use this on Delta login/compute nodes with NVIDIA GPUs.
+#
+# --- System prerequisites (before pip) ---
+#   mkdir -p ~/.mujoco && cd ~/.mujoco
+#   wget https://github.com/deepmind/mujoco/releases/download/2.1.0/mujoco210-linux-x86_64.tar.gz
+#   tar -xzf mujoco210-linux-x86_64.tar.gz
+#   export LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$HOME/.mujoco/mujoco210/bin"
+#   export MUJOCO_PY_MUJOCO_PATH=$HOME/.mujoco/mujoco210
+#
+#   # mujoco-py build deps (module load or apt): gcc, g++, cmake, patchelf,
+#   # libosmesa6-dev, libglew-dev, libglfw3-dev, libgl1-mesa-dev
+#
+# --- Recommended install order ---
+#   python3.10 -m venv ~/venvs/CleanDiffuser
+#   source ~/venvs/CleanDiffuser/bin/activate
+#   pip install -U pip setuptools wheel
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+#   pip install -r requirements.txt
+#   pip install -e .
+#   export D4RL_SUPPRESS_IMPORT_ERROR=1
+#   export MUJOCO_GL=egl
+#   export PYTHONPATH="${PWD}/pipelines:${PWD}:${HOME}/D4RL:${PYTHONPATH}"
+#
+# PyTorch: install separately for your Delta CUDA module (cu124 example above).
+# Do not rely on the pins below if you use the PyTorch index install.
+
+# --- Core numerics ---
+numpy>=1.23.5,<2.0
+scipy>=1.10
+h5py>=3.8
+einops>=0.8
+
+# --- Experiment / config ---
+hydra-core>=1.3.2
+omegaconf>=2.3.0
+wandb>=0.27
+dill>=0.3.8
+tqdm>=4.65
+PyYAML>=6.0
+
+# --- D4RL MuJoCo v2 (native sim for hopper-medium-v2) ---
+gym==0.23.1
+gym-notices>=0.1.0
+mujoco-py==2.1.2.14
+cython>=3.0
+glfw>=2.0
+PyOpenGL>=3.1
+
+# --- Gymnasium + MuJoCo 3.x (optional render / fallback) ---
+gymnasium>=1.0
+mujoco>=3.1.6,<3.2
+
+# --- dm_control and legacy CleanDiffuser deps ---
+dm_control==1.0.20
+dm-env>=1.6
+dm-tree>=0.1.8
+labmaze>=1.0
+numba>=0.59,<0.60
+matplotlib>=3.7,<3.8
+six>=1.16
+
+# --- Dataset / vision extras (other CleanDiffuser pipelines) ---
+zarr>=2.16,<2.17
+av>=12
+pygame>=2.5
+pymunk>=6.0
+shapely>=1.8,<2.0
+scikit-image>=0.22,<0.23
+opencv-python>=4.8
+imagecodecs>=2024.1
+imageio>=2.37
+imageio-ffmpeg>=0.5
+pillow>=10.0
+
+# --- Eval / tests ---
+pytest>=8.0
+
+# --- D4RL ---
+git+https://github.com/Farama-Foundation/D4RL.git@89141a689b0353b0dac3da5cba60da4b1b16254d

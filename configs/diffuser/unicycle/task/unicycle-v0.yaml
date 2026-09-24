@@ -1,0 +1,4 @@
+env_name: "Unicycle-v0"
+dim_mult: [1, 2, 2]
+w_cg: 0.3
+horizon: 64

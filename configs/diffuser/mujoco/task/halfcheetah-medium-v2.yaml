@@ -1,0 +1,19 @@
+env_name: "halfcheetah-medium-v2"
+dim_mult: [1, 4, 2]
+w_cg: 0.0001
+horizon: 4
+sim_env_name: "HalfCheetah-v2"
+
+# Best ep150 hybrid config (150-seed sweep winner, norm×100=44.80).
+# With opt_last=20 and sampling_steps=20, classifier guidance (w_cg) is inactive.
+best_hybrid:
+  name: hybrid_wcg0_opt0p00003_optlast20
+  guidance_mode: hybrid
+  optimization_guidance_scale: 0.00003
+  w_cg: 0.0
+  solver: ddim
+  temperature: 1.0
+  sampling_steps: 20
+  optimization_guidance_last_steps: 20
+  ddim_eta: 1.0
+  optimization_guidance_alpha_sigma_scale: true

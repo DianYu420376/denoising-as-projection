@@ -1,0 +1,70 @@
+defaults:
+  - _self_
+  - task: halfcheetah-medium-v2
+
+pipeline_name: diffuser_d4rl_mujoco
+mode: train
+seed: 0
+device: cuda:0
+# Optional subdirectory under results/<pipeline>/<task>/ to avoid overwriting prior runs.
+run_suffix: ""
+# Optional override for offline HDF5 (e.g. Hopper-v4 reroll dataset).
+dataset_h5path: null
+
+# WandB
+enable_wandb: false
+wandb_mode: online
+project: CleanDiffuser
+group: diffuser_d4rl_mujoco
+name: default
+
+# Environment
+terminal_penalty: -100
+discount: 0.997
+
+# Diffuser
+solver: ddpm
+model_dim: 32
+diffusion_steps: 20
+sampling_steps: 20
+predict_noise: False
+action_loss_weight: 10.
+ema_rate: 0.9999
+
+# Training
+diffusion_gradient_steps: 1000000
+classifier_gradient_steps: 1000000
+batch_size: 64
+log_interval: 1000
+save_interval: 100000
+
+# Inference
+ckpt: latest
+num_envs: 50
+num_episodes: 3
+num_candidates: 64
+temperature: 0.5
+use_ema: True
+guidance_mode: standard
+optimization_guidance_scale: 0.0
+optimization_guidance_alpha_sigma_scale: false
+# Optional JSON path for structured inference metrics (set by comparison eval scripts).
+eval_output: null
+
+# Rendering (mode=render, or mode=inference with render_video=true)
+# null = auto-map offline D4RL tasks (hopper -> Hopper-v4, etc.)
+sim_env_name: null
+render_video: false
+video_dir: video_outputs
+render_fps: 30
+render_width: 480
+render_height: 480
+max_render_steps: 1000
+render_reset_on_done: false
+render_ignore_termination: true
+
+# hydra
+hydra:
+  job:
+    chdir: false
+

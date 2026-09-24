@@ -1,0 +1,46 @@
+defaults:
+  - _self_
+  - task: unicycle-v0
+
+pipeline_name: diffuser_unicycle
+mode: train
+seed: 0
+device: cuda:0
+run_suffix: ""
+dataset_h5path: null
+
+enable_wandb: false
+wandb_mode: offline
+project: CleanDiffuser
+group: diffuser_unicycle
+name: default
+
+terminal_penalty: null
+discount: 0.99
+
+solver: ddim
+model_dim: 32
+diffusion_steps: 20
+sampling_steps: 20
+predict_noise: false
+action_loss_weight: 10.0
+ema_rate: 0.9999
+
+diffusion_gradient_steps: 500000
+batch_size: 64
+log_interval: 1000
+save_interval: 50000
+
+ckpt: latest
+num_episodes: 3
+num_candidates: 1
+temperature: 1.0
+use_ema: true
+guidance_mode: standard
+optimization_guidance_scale: 0.0
+optimization_guidance_last_steps: 10
+eval_output: null
+
+hydra:
+  job:
+    chdir: false
