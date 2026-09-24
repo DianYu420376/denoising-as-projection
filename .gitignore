@@ -4,6 +4,7 @@ outputs/
 /results
 /wandb
 *.pt
+!pretrained/**/*.pt
 # *.ipynb
 *.gif
 *.mp4
@@ -155,6 +156,7 @@ cython_debug/
 *.pkl
 *.pickle
 *.pt
+!pretrained/**/*.pt
 *.pth
 *.tflite
 *.ckpt

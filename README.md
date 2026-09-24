@@ -22,6 +22,7 @@ Core implementation: `cleandiffuser/diffusion/guidance.py` (used by DDIM / `Disc
 cleandiffuser/          # Core library (diffusion, guidance, envs, datasets)
 configs/                # Hydra / task configs (MuJoCo, unicycle)
 pipelines/              # Python entry points for train / eval / plots
+pretrained/mujoco/      # Released Diffuser + classifier checkpoints (medium-v2)
 experiments/
   common/env.sh         # Shared REPO_DIR / PYTHON / PYTHONPATH setup
   synthetic/            # Convex constrained synthetic (Test A / Test B)
@@ -49,6 +50,26 @@ export D4RL_SUPPRESS_IMPORT_ERROR=1
 ```
 
 **Dependencies of note:** PyTorch, MuJoCo / `mujoco_py`, Gym, D4RL (for MuJoCo offline datasets).
+
+### Pretrained MuJoCo checkpoints
+
+Released under `pretrained/mujoco/<task>/` for:
+
+- `hopper-medium-v2`
+- `walker2d-medium-v2`
+- `halfcheetah-medium-v2`
+
+Each folder contains `diffusion_ckpt_latest.pt` and `classifier_ckpt_latest.pt`. Install them into the paths expected by the eval scripts:
+
+```bash
+mkdir -p results/diffuser_d4rl_mujoco
+for task in hopper-medium-v2 walker2d-medium-v2 halfcheetah-medium-v2; do
+  mkdir -p "results/diffuser_d4rl_mujoco/${task}"
+  cp -a "pretrained/mujoco/${task}/." "results/diffuser_d4rl_mujoco/${task}/"
+done
+```
+
+Synthetic and unicycle weights are not shipped (train with the commands below).
 
 **SLURM (optional):** pass your site account/partition on the command line, e.g.
 
